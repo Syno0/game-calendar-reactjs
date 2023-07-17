@@ -9,8 +9,8 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // Wrap useQuery to use this function by default
 const defaultQueryFn = async ({ queryKey }) => {
-  const { data } = await fetch(queryKey[0], { params: queryKey[1] })
-  return data
+  const data = await fetch(queryKey[0], queryKey[1])
+  return await data.json();
 }
 
 const queryClient = new QueryClient({
@@ -21,6 +21,21 @@ const queryClient = new QueryClient({
     },
   },
 })
+
+// Get JWT Token from backend and store it in cookies
+fetch('http://127.0.0.1:3000/auth/login', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  credentials: 'include',
+  body: JSON.stringify({
+    username: process.env.REACT_APP_BACK_USER,
+    password: process.env.REACT_APP_BACK_PWD
+  })
+}).catch(err => {
+  console.error(err);
+});
 
 // React.StrictMode will render 2 times on launch
 root.render(
