@@ -1,34 +1,43 @@
 import React from "react";
-import {useQuery} from 'react-query';
+import Day from "./Day";
+import { useGetGamesBetweenDates } from "../helpers/igdb_api";
+import * as dayjs from 'dayjs';
+import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
+import Box from "@mui/material/Box";
 
 function Calendar() {
-	console.log("RENDER");
 
-	// function clickBtn() {
-	const { data, isFetching, isError, isSuccess } = useQuery(["http://127.0.0.1:3000/games", {
-			method: "POST",
-			credentials: "include",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				start_date: "2023-09-05",
-				end_date: "2023-09-07",
-			}),
-		}]);
-	// }
+	const startOfMonth = dayjs().startOf('month').format('YYYY-MM-DD');
+	const endOfMonth = dayjs().endOf('month').format('YYYY-MM-DD');
+	const nbDaysInMonth = dayjs().daysInMonth();
+	let daysInMonth = [];
+	for (let i = 1; i <= nbDaysInMonth; i++) daysInMonth.push(i);
+
+	let { data, isFetching, isError } = useGetGamesBetweenDates(startOfMonth, endOfMonth);
 
 	return (
 		<div className="calendar">
 			Calendar
-			<br />
-			<br />
-			{/* <button onClick={clickBtn}>CLICK ME</button> */}
-			{isFetching ? (
-				<div>Loading ...</div>
-			) : (
-				<pre>{JSON.stringify(data, null, 2)}</pre>
-			)}
+			<br /><br />
+			<Grid container spacing={4}>
+				{isFetching ? (
+					<div>Loading ...</div>
+				) : isError ? (
+					<div>Sorry, an error occured :(</div>
+				) : (!data || typeof data === 'undefined' || data.length === 0) ? (
+					<div>Missing data :/</div>
+				) : (
+					daysInMonth.map((day) => (
+						<Day
+							key={day}
+							day={day}
+							games={data.filter(
+								(game) => parseInt(game.day) === day
+							)}
+						/>
+					))
+				)}
+			</Grid>
 		</div>
 	);
 }
