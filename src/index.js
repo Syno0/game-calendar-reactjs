@@ -49,12 +49,12 @@ const queryClient = new QueryClient({
 refreshJwtToken().then(_ => {
   // React.StrictMode will render 2 times on launch
   root.render(
-    <React.StrictMode>
+    //<React.StrictMode>
       <QueryClientProvider client={queryClient}>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <App />
       </QueryClientProvider>
-    </React.StrictMode>
+    //</React.StrictMode>
   );
 
   // If you want to start measuring performance in your app, pass a function

@@ -1,12 +1,13 @@
 import './App.css';
 import { Calendar } from './components/';
+import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      <Grid container spacing={4}>
         Game Calendar
-      </header>
+      </Grid>
       <Calendar/>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
@@ -17,46 +17,52 @@ const Item = styled(Paper)(({ theme }) => ({
 	textAlign: "center",
 	color: theme.palette.text.secondary,
 	width: '100%',
-	height: '100%',
-	minHeight: '300px',
-	backgroundImage: null
+	height: '300px',
+	backgroundImage: null,
+	overflow: 'hidden'
 }));
 
-function Day({ day, games }) {
+function Day({ day, handleOpen, setModalGame, games }) {
 
-	const items = [], imgStyle = { width: '100%', height: '260px' };
+	const carousel = useRef(null);
+	const items = [], imgStyle = { width: '100%', height: '280px', cursor: 'pointer' };
 	games.map(game => {
 		return items.push(
-			<div>{game.name}
+			<div>
 				<img
 					style={imgStyle}
 					alt={game.name}
 					src={game.cover ? "http:" + game.cover.url : ""}
 					role="presentation"
+					onClick={() => {
+						setModalGame(game);
+						handleOpen();
+					}}
 				/>
-				<div style={{left: 0, position: 'absolute', width: '40px', top: '40%', color: '#FFF'}}>
-					<ChevronLeftIcon sx={{ fontSize: 60 }}/>
-				</div>
-				<div style={{right: 0, position: 'absolute', width: '40px', top: '40%', color: '#FFF'}}>
-					<ChevronRightIcon sx={{ fontSize: 60 }}/>
-				</div>
+				{games.length > 1 ? (
+					<>
+						<div className="chevron" style={{left: 0}}>
+							<ChevronLeftIcon sx={{ fontSize: 60 }} onClick={(e) => carousel?.current?.slidePrev(e)}/>
+						</div>
+						<div className="chevron" style={{right: 0}}>
+							<ChevronRightIcon sx={{ fontSize: 60 }} onClick={(e) => carousel?.current?.slideNext(e)}/>
+						</div>
+					</>
+				) : ''}
 			</div>
 		);
 	})
 
-	// const Carousel = () => (
-	// 	<AliceCarousel autoHeight infinite mouseTracking items={items} />
-	// );
-
 	return (
-		<Grid xs={12} sm={6} md={4} lg={2}>
+		<Grid xs={6} sm={4} md={3} lg={1.5}>
 			{games[0] ? (
 				<Item>
 					<b>{day}</b>
 					<br />
 					<AliceCarousel
+						key="carousel"
+						ref={carousel}
 						disableButtonsControls
-						disableDotsControls
 						autoHeight
 						infinite
 						items={items}
@@ -64,7 +70,7 @@ function Day({ day, games }) {
 				</Item>
 			) : (
 				<Item>
-					{day}
+					<b>{day}</b>
 					<br />
 				</Item>
 			)}
