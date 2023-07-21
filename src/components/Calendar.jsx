@@ -57,7 +57,7 @@ function Calendar() {
 				) : !data ||
 				  typeof data === "undefined" ||
 				  isError ? (
-					<div>Sorry, an error occured :(</div>
+					<div xs={12} style={{margin: 'auto'}}>Sorry, an error occured :(</div>
 				) : (
 					<>
 						<Grid xs={12} style={{margin: 'auto'}}><small>Found: {data.length}</small></Grid>

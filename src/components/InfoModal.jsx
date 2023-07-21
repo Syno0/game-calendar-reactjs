@@ -2,6 +2,9 @@ import React from "react";
 
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
+import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
+import AliceCarousel from 'react-alice-carousel';
+import 'react-alice-carousel/lib/alice-carousel.css';
 
 const style = {
 	position: "absolute",
@@ -17,6 +20,31 @@ const style = {
 
 function InfoModal({open, handleClose, game}) {
 
+	console.log(game ? game : null);
+
+	const imgStyle = { width: '100%', cursor: 'pointer' }
+
+	const img = [];
+	if(game) {
+		img.push(
+			<img
+				style={imgStyle}
+				alt={game.cover.url}
+				src={"http:" + game.cover.url}
+				role="presentation"
+			/>
+		);
+		game.artworks.map(artwork => {
+			return img.push(
+				<img
+					style={imgStyle}
+					alt={artwork.id}
+					src={"http:" + artwork.url}
+					role="presentation"
+				/>);
+		});
+	}
+
 	return (
 		<Modal
 			open={open}
@@ -25,7 +53,22 @@ function InfoModal({open, handleClose, game}) {
 			aria-describedby="modal-modal-description"
 		>
 			<Box sx={style}>
-				{game ? game.name : ""}
+				{game ?
+				<Grid container spacing={4}>
+					<Grid xs={4}>
+						<AliceCarousel
+							key="carousel"
+							disableButtonsControls
+							autoHeight
+							infinite
+							items={img}
+						/>
+					</Grid>
+					<Grid xs={8}>
+						{game.name}
+					</Grid>
+				</Grid>
+				: ""}
 			</Box>
 		</Modal>
 	);

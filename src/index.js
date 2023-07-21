@@ -12,6 +12,8 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
+const CronJob = require('cron').CronJob;
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 // Wrap useQuery to use this function by default
@@ -47,19 +49,22 @@ const queryClient = new QueryClient({
 });
 
 refreshJwtToken().then(_ => {
-  // React.StrictMode will render 2 times on launch
-  root.render(
-    //<React.StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-        <App />
-      </QueryClientProvider>
-    //</React.StrictMode>
-  );
 
-  // If you want to start measuring performance in your app, pass a function
-  // to log results (for example: reportWebVitals(console.log))
-  // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-  reportWebVitals();
+	new CronJob("0 */8 * * * *", refreshJwtToken, null, true, "Europe/Paris");
+
+	// React.StrictMode will render 2 times on launch
+	root.render(
+	//<React.StrictMode>
+		<QueryClientProvider client={queryClient}>
+		<meta name="viewport" content="initial-scale=1, width=device-width" />
+		<App />
+		</QueryClientProvider>
+	//</React.StrictMode>
+	);
+
+	// If you want to start measuring performance in your app, pass a function
+	// to log results (for example: reportWebVitals(console.log))
+	// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+	reportWebVitals();
 }).catch(err => console.error(err))
 

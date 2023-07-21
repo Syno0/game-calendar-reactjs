@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
@@ -9,6 +9,8 @@ import 'react-alice-carousel/lib/alice-carousel.css';
 
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+
+import 'animate.css/animate.css'
 
 const Item = styled(Paper)(({ theme }) => ({
 	backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -54,7 +56,7 @@ function Day({ day, handleOpen, setModalGame, games }) {
 	})
 
 	return (
-		<Grid xs={6} sm={4} md={3} lg={1.5}>
+		<Grid xs={6} sm={4} md={3} lg={1.5} className="animate__animated animate__fadeIn animate__faster">
 			{games[0] ? (
 				<Item>
 					<b>{day}</b>
