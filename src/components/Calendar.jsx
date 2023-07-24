@@ -10,6 +10,8 @@ import InfoModal from "./InfoModal";
 
 // MUI
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
+import LinearProgress from '@mui/material/LinearProgress';
+import Box from '@mui/material/Box';
 
 function Calendar() {
 
@@ -53,7 +55,9 @@ function Calendar() {
 			</Grid>
 			<Grid container spacing={4}>
 				{isFetching ? (
-					<div xs={12} style={{margin: 'auto'}}>Loading ...</div>
+					<Box style={{margin: 'auto'}} sx={{ width: '50%' }}>
+						<LinearProgress />
+					</Box>
 				) : !data ||
 				  typeof data === "undefined" ||
 				  isError ? (
