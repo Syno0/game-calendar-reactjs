@@ -3,13 +3,11 @@ import React, { useRef } from "react";
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Paper from "@mui/material/Paper";
-
-import AliceCarousel from 'react-alice-carousel';
-import 'react-alice-carousel/lib/alice-carousel.css';
-
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
+import AliceCarousel from 'react-alice-carousel';
+import 'react-alice-carousel/lib/alice-carousel.css';
 import 'animate.css/animate.css'
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -24,7 +22,7 @@ const Item = styled(Paper)(({ theme }) => ({
 	overflow: 'hidden'
 }));
 
-function Day({ day, handleOpen, setModalGame, games }) {
+function Day({ day, handleOpen, setModalGame, isToday, games }) {
 
 	const carousel = useRef(null);
 	const items = [], imgStyle = { width: '100%', height: '280px', cursor: 'pointer' };
@@ -34,7 +32,7 @@ function Day({ day, handleOpen, setModalGame, games }) {
 				<img
 					style={imgStyle}
 					alt={game.name}
-					src={game.cover ? "http:" + game.cover.url : ""}
+					src={game.cover ? "http:" + game.cover.url : "/no-cover.png"}
 					role="presentation"
 					onClick={() => {
 						setModalGame(game);
@@ -53,12 +51,21 @@ function Day({ day, handleOpen, setModalGame, games }) {
 				) : ''}
 			</div>
 		);
-	})
+	});
 
 	return (
-		<Grid xs={6} sm={4} md={3} lg={1.5} className="animate__animated animate__fadeIn animate__faster">
+		<Grid
+			xs={6}
+			sm={4}
+			md={3}
+			lg={1.5}
+			className={games[0] ?
+				'animate__animated animate__fadeIn animate__faster onHoverZoom' :
+				'animate__animated animate__fadeIn animate__faster'
+			}
+		>
 			{games[0] ? (
-				<Item>
+				<Item className={isToday() ? 'gradient-border' : null}>
 					<b>{day}</b>
 					<br />
 					<AliceCarousel
@@ -71,7 +78,7 @@ function Day({ day, handleOpen, setModalGame, games }) {
 					/>
 				</Item>
 			) : (
-				<Item>
+				<Item className={isToday() ? 'gradient-border' : null}>
 					<b>{day}</b>
 					<br />
 				</Item>

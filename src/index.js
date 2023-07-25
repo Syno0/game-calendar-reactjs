@@ -48,6 +48,8 @@ const queryClient = new QueryClient({
 	},
 });
 
+document.title = "Game Calendar";
+
 refreshJwtToken().then(_ => {
 
 	new CronJob("0 */8 * * * *", refreshJwtToken, null, true, "Europe/Paris");
@@ -56,8 +58,9 @@ refreshJwtToken().then(_ => {
 	root.render(
 	//<React.StrictMode>
 		<QueryClientProvider client={queryClient}>
-		<meta name="viewport" content="initial-scale=1, width=device-width" />
-		<App />
+			<meta name="description" content="Game calendar application"></meta>
+			<meta name="viewport" content="initial-scale=1, width=device-width" />
+			<App />
 		</QueryClientProvider>
 	//</React.StrictMode>
 	);

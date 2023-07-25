@@ -38,6 +38,13 @@ function Calendar() {
 	const handleClose = () => setOpen(false);
 	const [modalGame, setModalGame] = useState(null);
 
+	function isToday(day, month, year) {
+		month = month.format('MM');
+		if(dayjs().format('YYYY-MM-DD') === `${year}-${month}-${day}`)
+			return true;
+		return false;
+	}
+
 	return (
 		<div className="calendar">
 			<Grid container spacing={4} textAlign="center">
@@ -56,7 +63,7 @@ function Calendar() {
 			<Grid container spacing={4}>
 				{isFetching ? (
 					<Box style={{margin: 'auto'}} sx={{ width: '50%' }}>
-						<LinearProgress />
+						<LinearProgress style={{marginTop: '100px'}} />
 					</Box>
 				) : !data ||
 				  typeof data === "undefined" ||
@@ -71,11 +78,15 @@ function Calendar() {
 								day={day}
 								handleOpen={handleOpen}
 								setModalGame={setModalGame}
+								isToday={() => isToday(day, currentMonth, currentYear)}
 								games={data
 									.filter((game) => parseInt(game.day) === day)
 									.sort((a, b) => {
-										if (a.hypes < b.hypes) return 1;
-										if (a.hypes > b.hypes) return -1;
+										// Spotlight define by hypes + follow + total rating
+										const scoreA = a.hypes + a.follow + Math.round(a.total_rating);
+										const scoreB = b.hypes + a.follow + Math.round(b.total_rating);
+										if (scoreA < scoreB) return 1;
+										if (scoreA > scoreB) return -1;
 										return 0;
 									})}
 							/>
