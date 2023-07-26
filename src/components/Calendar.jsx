@@ -6,6 +6,7 @@ import * as dayjs from 'dayjs';
 import Day from "./Day";
 import MonthMenu from "./MonthMenu";
 import YearMenu from "./YearMenu";
+import Filters from "./Filters";
 import InfoModal from "./InfoModal";
 
 // MUI
@@ -30,13 +31,17 @@ function Calendar() {
 	let daysInMonth = [];
 	for (let i = 1; i <= nbDaysInMonth; i++) daysInMonth.push(i);
 
-	let { data, isFetching, isError } = useGetGamesBetweenDates(startOfMonth, endOfMonth);
-
 	// Modal
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 	const [modalGame, setModalGame] = useState(null);
+
+	// Filter
+	const [hypesFilter, setHypesFilter] = useState(1);
+
+	// Fetching Data
+	let { data, isFetching, isError } = useGetGamesBetweenDates(startOfMonth, endOfMonth);
 
 	function isToday(day, month, year) {
 		month = month.format('MM');
@@ -59,6 +64,10 @@ function Calendar() {
 					currentMonth={currentMonth}
 					setCurrentMonth={setCurrentMonth}
 				/>
+				{/* <Filters
+					hypesFilter={hypesFilter}
+					setHypesFilter={setHypesFilter}
+				/> */}
 			</Grid>
 			<Grid container spacing={4}>
 				{isFetching ? (

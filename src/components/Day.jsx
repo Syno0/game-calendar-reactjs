@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
@@ -39,6 +39,12 @@ function Day({ day, handleOpen, setModalGame, isToday, games }) {
 						handleOpen();
 					}}
 				/>
+				{game.status === 'Cancelled' ?
+					<span className='cancelled_cross' onClick={() => {
+						setModalGame(game);
+						handleOpen();
+					}}>&#10060;</span> : ''
+				}
 				{games.length > 1 ? (
 					<>
 						<div className="chevron" style={{left: 0}}>
@@ -53,12 +59,25 @@ function Day({ day, handleOpen, setModalGame, isToday, games }) {
 		);
 	});
 
+	// Fun
+	useEffect(() => {
+		const borderWith = getComputedStyle(document.documentElement).getPropertyValue('--borderWith');
+		console.log(borderWith);
+	}, []);
+	// const todayFun = useRef(null);
+	function todayFun() {
+		// console.log(getComputedStyle(document.documentElement).getPropertyValue('--borderWith'));
+		console.log('WZA');
+		document.documentElement.style.setProperty('--borderWith', '50px');
+	}
+
 	return (
 		<Grid
 			xs={6}
 			sm={4}
 			md={3}
-			lg={1.5}
+			lg={2}
+			xl={1.5}
 			className={games[0] ?
 				'animate__animated animate__fadeIn animate__faster onHoverZoom' :
 				'animate__animated animate__fadeIn animate__faster'
@@ -79,7 +98,13 @@ function Day({ day, handleOpen, setModalGame, isToday, games }) {
 				</Item>
 			) : (
 				<Item className={isToday() ? 'gradient-border' : null}>
-					<b>{day}</b>
+					{isToday() ?
+						<b
+							onClick={todayFun}
+						>{day}</b>
+					:
+						<b>{day}</b>
+					}
 					<br />
 				</Item>
 			)}

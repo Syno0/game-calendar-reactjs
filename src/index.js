@@ -52,7 +52,7 @@ document.title = "Game Calendar";
 
 refreshJwtToken().then(_ => {
 
-	new CronJob("0 */8 * * * *", refreshJwtToken, null, true, "Europe/Paris");
+	new CronJob("0 */5 * * * *", refreshJwtToken, null, true, "Europe/Paris");
 
 	// React.StrictMode will render 2 times on launch
 	root.render(

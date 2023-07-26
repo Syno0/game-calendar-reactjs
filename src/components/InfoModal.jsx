@@ -30,6 +30,7 @@ const style = {
 	borderRadius: '5px',
 	boxShadow: 24,
 	p: 4,
+	height: '500px'
 };
 
 // Get gradiant color depending the pourcentage
@@ -73,9 +74,10 @@ function InfoModal({open, handleClose, game}) {
 	};
 
 	const carousel = useRef(null);
+	const videoCarousel = useRef(null);
 	const imgStyle = { width: '100%', cursor: 'pointer' }
 
-	const img = [];
+	const img = [], videos = [];
 	if(game) {
 		img.push(
 			<img
@@ -96,6 +98,19 @@ function InfoModal({open, handleClose, game}) {
 						role="presentation"
 					/>);
 			});
+
+		if(game.videos) {
+			game.videos.map(video => {
+				videos.push(
+					<iframe
+						title={video.video_id}
+						width="100%"
+						height="400px"
+						src={`https://www.youtube.com/embed/${video.video_id}?mute=1`}
+					></iframe>
+				);
+			})
+		}
 	}
 
 	return (
@@ -110,7 +125,7 @@ function InfoModal({open, handleClose, game}) {
 					<TabList onChange={handleTabChange} aria-label="Game tabs" centered>
 						<Tab label="Game" value="1" />
 						<Tab label="Advanced" value="2" />
-						<Tab label="Links" value="3" />
+						<Tab label="Videos" value="3" />
 					</TabList>
 					{game ? (
 						<>
@@ -249,14 +264,23 @@ function InfoModal({open, handleClose, game}) {
 											<br /><br />
 											</>
 										: ''}
+										{game.genres ?
+											<>
+											<b>Genres:</b><br />
+											{game.genres.map(genre => {
+												return (
+													<Chip key={genre.name} style={{margin: '5px'}} label={genre.name} />
+												)
+											})}
+											<br /><br />
+											</>
+										: ''}
 										{game.game_modes ?
 											<>
 											<b>Game mode:</b><br />
 											{game.game_modes.map(game_mode => {
 												return (
-												<div key={game_mode} >
-													<Chip label={game_mode.name} />&nbsp;
-												</div>
+													<Chip key={game_mode.name} style={{margin: '5px'}} label={game_mode.name} />
 												)
 											})}
 											<br /><br />
@@ -275,6 +299,12 @@ function InfoModal({open, handleClose, game}) {
 											<br /><br />
 											</>
 										: ''}
+									</Grid>
+									<Grid xs={6}>
+										<b>Status: {game.status}</b>
+										<br /><br />
+										<b>Hypes / Follows:</b> {game.hypes ? game.hypes : 0} / {game.follows ? game.follows : 0}
+										<br /><br />
 										{game.game_engines ?
 											<>
 											<b>Game engine:</b><br />
@@ -285,18 +315,62 @@ function InfoModal({open, handleClose, game}) {
 												</div>
 												)
 											})}
+											<br />
+											</>
+										: ''}
+										{game.developer ?
+											<>
+											<b>Developer:</b><br />
+											{game.developer.map(developer => {
+												return (
+													<Link key={developer.name} href={developer.url} target="blank">{developer.name}</Link>
+												)
+											})}
+											<br /><br />
+											</>
+										: ''}
+										{game.publisher ?
+											<>
+											<b>Publisher:</b><br />
+											{game.publisher.map(publisher => {
+												return (
+													<Link key={publisher.name} href={publisher.url} target="blank">{publisher.name}</Link>
+												)
+											})}
 											<br /><br />
 											</>
 										: ''}
 									</Grid>
-									<Grid xs={6}>
-										<b>Hypes:</b> {game.hypes ? game.hypes : 0}<br />
-										<b>Follow:</b> {game.follows ? game.follows : 0}<br />
-									</Grid>
 								</Grid>
 							</TabPanel>
 							<TabPanel value="3">
-								Videos
+							<Grid container spacing={4}>
+									<Grid xs={12} style={{ position: "relative" }}>
+										<AliceCarousel
+											key="videoCarousel"
+											ref={videoCarousel}
+											disableButtonsControls
+											infinite
+											items={videos}
+										/>
+										<div className="chevron" style={{ left: 0 }}>
+											<ChevronLeftIcon
+												sx={{ fontSize: 60 }}
+												onClick={(e) =>
+													videoCarousel?.current?.slidePrev(e)
+												}
+											/>
+										</div>
+										<div className="chevron" style={{ right: 0 }}>
+											<ChevronRightIcon
+												sx={{ fontSize: 60 }}
+												onClick={(e) =>
+													videoCarousel?.current?.slideNext(e)
+												}
+											/>
+										</div>
+									</Grid>
+								</Grid>
 							</TabPanel>
 						</>
 					) : (
