@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useGetGamesBetweenDates } from "../helpers/igdb_api";
+import { useGetGames } from "../helpers/igdb_api";
 import * as dayjs from 'dayjs';
 
 // Components
@@ -39,13 +39,20 @@ function Calendar() {
 
 	// Filter
 	const [hypesFilter, setHypesFilter] = useState(1);
+	const [scoreFilter, setScoreFilter] = useState(false);
+	// Default platforms filters
+	const [platformFilter, setPlatformFilter] = useState([]);
 
 	// Fetching Data
-	let { data, isFetching, isError } = useGetGamesBetweenDates(startOfMonth, endOfMonth);
+	let { data, isFetching, isError } = useGetGames(startOfMonth, endOfMonth, {
+		hypes: hypesFilter,
+		score: scoreFilter,
+		platform: platformFilter
+	});
 
 	function isToday(day, month, year) {
 		month = month.format('MM');
-		if(dayjs().format('YYYY-MM-DD') === `${year}-${month}-${day}`)
+		if(dayjs().format('YYYY-MM-DD') === `${year}-${month}-${day.toString().padStart(2, '0')}`)
 			return true;
 		return false;
 	}
@@ -64,10 +71,12 @@ function Calendar() {
 					currentMonth={currentMonth}
 					setCurrentMonth={setCurrentMonth}
 				/>
-				{/* <Filters
-					hypesFilter={hypesFilter}
+				<Filters
 					setHypesFilter={setHypesFilter}
-				/> */}
+					setScoreFilter={setScoreFilter}
+					platformFilter={platformFilter}
+					setPlatformFilter={setPlatformFilter}
+				/>
 			</Grid>
 			<Grid container spacing={4}>
 				{isFetching ? (

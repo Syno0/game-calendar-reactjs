@@ -1,10 +1,11 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Paper from "@mui/material/Paper";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import Tooltip from '@mui/material/Tooltip';
 
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
@@ -29,46 +30,97 @@ function Day({ day, handleOpen, setModalGame, isToday, games }) {
 	games.map(game => {
 		return items.push(
 			<div>
+				<span style={{ position: "absolute", top: 10, right: 40 }}>
+					<Tooltip title={game.platform.slug}>
+						<img
+							style={{
+								maxWidth: "40px",
+								maxHeight: "20px",
+								position: "absolute",
+								marginLeft: "10px",
+								marginTop: "-5px",
+								border: '2px solid rgba(51, 51, 51, 0.2)',
+								borderRadius: '8px',
+								backgroundColor: '#FFF',
+							}}
+							alt={game.platform.slug}
+							src={"http:" + game.platform.logo}
+						/>
+					</Tooltip>
+				</span>
 				<img
 					style={imgStyle}
 					alt={game.name}
-					src={game.cover ? "http:" + game.cover.url : "/no-cover.png"}
+					src={
+						game.cover ? "http:" + game.cover.url : "/no-cover.png"
+					}
 					role="presentation"
 					onClick={() => {
 						setModalGame(game);
 						handleOpen();
 					}}
 				/>
-				{game.status === 'Cancelled' ?
-					<span className='cancelled_cross' onClick={() => {
-						setModalGame(game);
-						handleOpen();
-					}}>&#10060;</span> : ''
-				}
+				{game.status === "Cancelled" ? (
+					<span
+						className="cancelled_cross"
+						onClick={() => {
+							setModalGame(game);
+							handleOpen();
+						}}
+					>
+						&#10060;
+					</span>
+				) : (
+					""
+				)}
 				{games.length > 1 ? (
 					<>
-						<div className="chevron" style={{left: 0}}>
-							<ChevronLeftIcon sx={{ fontSize: 60 }} onClick={(e) => carousel?.current?.slidePrev(e)}/>
+						<div className="chevron" style={{ left: 0 }}>
+							<ChevronLeftIcon
+								sx={{ fontSize: 60 }}
+								onClick={(e) => carousel?.current?.slidePrev(e)}
+							/>
 						</div>
-						<div className="chevron" style={{right: 0}}>
-							<ChevronRightIcon sx={{ fontSize: 60 }} onClick={(e) => carousel?.current?.slideNext(e)}/>
+						<div className="chevron" style={{ right: 0 }}>
+							<ChevronRightIcon
+								sx={{ fontSize: 60 }}
+								onClick={(e) => carousel?.current?.slideNext(e)}
+							/>
 						</div>
 					</>
-				) : ''}
+				) : (
+					""
+				)}
 			</div>
 		);
 	});
 
 	// Fun
-	useEffect(() => {
-		const borderWith = getComputedStyle(document.documentElement).getPropertyValue('--borderWith');
-		console.log(borderWith);
-	}, []);
-	// const todayFun = useRef(null);
+	let cpt = 0, clickCount=0;
 	function todayFun() {
-		// console.log(getComputedStyle(document.documentElement).getPropertyValue('--borderWith'));
-		console.log('WZA');
-		document.documentElement.style.setProperty('--borderWith', '50px');
+		clickCount++;
+		const maxSize = 200 + (clickCount * 10);
+		const funInterval = setInterval(function () {
+			cpt += 5;
+			document.documentElement.style.setProperty(
+				"--border-width",
+				cpt + "px"
+			);
+
+			if (cpt > maxSize) {
+				clearInterval(funInterval);
+				const funInterval2 = setInterval(function () {
+					cpt -= 5;
+					document.documentElement.style.setProperty(
+						"--border-width",
+						cpt + "px"
+					);
+					if (cpt < 10) {
+						clearInterval(funInterval2);
+					}
+				});
+			}
+		}, 10);
 	}
 
 	return (
@@ -85,7 +137,13 @@ function Day({ day, handleOpen, setModalGame, isToday, games }) {
 		>
 			{games[0] ? (
 				<Item className={isToday() ? 'gradient-border' : null}>
-					<b>{day}</b>
+					{isToday() ?
+						<b
+							onClick={todayFun}
+						>{day}</b>
+					:
+						<b>{day}</b>
+					}
 					<br />
 					<AliceCarousel
 						key="carousel"
@@ -113,3 +171,4 @@ function Day({ day, handleOpen, setModalGame, isToday, games }) {
 }
 
 export default Day;
+// export const MemoizedDay = React.memo(Movie);

@@ -20,7 +20,7 @@ function YearMenu({currentYear, setCurrentYear, currentMonth, setCurrentMonth}) 
 	}
 
 	return (
-		<Grid xs={12} marginBottom={5}>
+		<Grid xs={12}>
 			{getAsideMonths(currentYear).map((year, index) => (
 				<span
 					key={index}
