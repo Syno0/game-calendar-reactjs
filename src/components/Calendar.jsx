@@ -73,6 +73,7 @@ function Calendar() {
 				/>
 				<Filters
 					setHypesFilter={setHypesFilter}
+					scoreFilter={scoreFilter}
 					setScoreFilter={setScoreFilter}
 					platformFilter={platformFilter}
 					setPlatformFilter={setPlatformFilter}

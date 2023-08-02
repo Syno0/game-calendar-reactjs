@@ -51,7 +51,7 @@ const defaultPlatform = ["win", "switch", "ps5", "series-x"];
 
 let allPlatforms;
 
-function Filters({setHypesFilter, setScoreFilter, platformFilter, setPlatformFilter}) {
+function Filters({setHypesFilter, scoreFilter, setScoreFilter, platformFilter, setPlatformFilter}) {
 
 	// Platforms
 	let { data, isFetching, isError } = useGetPlatforms();
@@ -87,6 +87,13 @@ function Filters({setHypesFilter, setScoreFilter, platformFilter, setPlatformFil
 		setScoreFilter(event.target.checked);
 	};
 
+	// Reset
+	const handleClickReset = (event) => {
+		setHypesFilter(1);
+		setScoreFilter(false);
+		setPlatformFilter(data.filter(x => defaultPlatform.includes(x.slug)));
+	};
+
 	return (
 		<Grid container xs={12} marginTop={0} paddingBottom={0}>
 			<Grid xs={12} sm={6} md={3} padding={5}>
@@ -104,8 +111,7 @@ function Filters({setHypesFilter, setScoreFilter, platformFilter, setPlatformFil
 			</Grid>
 			<Grid xs={12} sm={6} md={1} padding={5}>
 				Score:
-				<br />
-				<Checkbox onChange={handleScoreChange} />
+				<Checkbox onChange={handleScoreChange} checked={scoreFilter} />
 			</Grid>
 			<Grid xs={12} sm={12} md={4} padding={5}>
 				Platform:
@@ -170,8 +176,10 @@ function Filters({setHypesFilter, setScoreFilter, platformFilter, setPlatformFil
 			</Grid>
 			<Grid xs={12} sm={12} md={3} padding={5}>
 				<Button
+					style={{marginTop: 40 }}
 					variant="outlined"
 					startIcon={<RefreshIcon />}
+					onClick={handleClickReset}
 				>
 					Reset filters
 				</Button>
