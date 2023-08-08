@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  game-calendar-reactjs:
+    container_name: game-calendar-reactjs
+    image: game-calendar-reactjs
+    env_file:
+      - .env
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    ports:
+      - 3001:3001
+    volumes:
+      - '.:/app'
+      # - '/app/node_modules'

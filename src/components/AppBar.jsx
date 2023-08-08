@@ -17,20 +17,20 @@ const pages = [];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
-	const [anchorElNav, setAnchorElNav] = React.useState(null);
-	// const [anchorElUser, setAnchorElUser] = React.useState(null);
+	// const [anchorElNav, setAnchorElNav] = React.useState(null);
+	// // const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-	const handleOpenNavMenu = (event) => {
-		setAnchorElNav(event.currentTarget);
-	};
+	// const handleOpenNavMenu = (event) => {
+	// 	setAnchorElNav(event.currentTarget);
+	// };
 
 	// const handleOpenUserMenu = (event) => {
 	// 	setAnchorElUser(event.currentTarget);
 	// };
 
-	const handleCloseNavMenu = () => {
-		setAnchorElNav(null);
-	};
+	// const handleCloseNavMenu = () => {
+	// 	setAnchorElNav(null);
+	// };
 
 	// const handleCloseUserMenu = () => {
 	// 	setAnchorElUser(null);
@@ -137,7 +137,7 @@ function ResponsiveAppBar() {
 						{pages.map((page) => (
 							<Button
 								key={page}
-								onClick={handleCloseNavMenu}
+								// onClick={handleCloseNavMenu}
 								sx={{ my: 2, color: "white", display: "block" }}
 							>
 								{page}

@@ -101,7 +101,7 @@ function InfoModal({open, handleClose, game}) {
 
 		if(game.videos) {
 			game.videos.map(video => {
-				videos.push(
+				return videos.push(
 					<iframe
 						title={video.video_id}
 						width="100%"
