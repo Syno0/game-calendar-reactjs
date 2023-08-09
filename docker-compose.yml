@@ -10,6 +10,11 @@ services:
       - CHOKIDAR_USEPOLLING=true
     ports:
       - 3001:3001
-    volumes:
-      - '.:/app'
-      # - '/app/node_modules'
+    networks:
+      game-calendar:
+        ipv4_address: 172.20.0.3
+
+# docker network create -d bridge --subnet=172.20.0.0/16 --gateway=172.20.0.1 game-calendar
+networks:
+  game-calendar:
+    external: true
