@@ -58,8 +58,6 @@ refreshJwtToken().then(_ => {
 	root.render(
 	//<React.StrictMode>
 		<QueryClientProvider client={queryClient}>
-			<meta name="description" content="Game calendar application"></meta>
-			<meta name="viewport" content="initial-scale=1, width=device-width" />
 			<App />
 		</QueryClientProvider>
 	//</React.StrictMode>

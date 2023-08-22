@@ -11,7 +11,7 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 // import Tooltip from '@mui/material/Tooltip';
 // import MenuItem from '@mui/material/MenuItem';
-import CalendarMonth from '@mui/icons-material/CalendarMonth';
+// import CalendarMonth from '@mui/icons-material/CalendarMonth';
 
 const pages = [];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -37,11 +37,18 @@ function ResponsiveAppBar() {
 	// };
 
 	return (
-		<AppBar position="static">
+		<AppBar position="static" style={{
+			backgroundColor: "#2D2D93"
+		}}>
 			<Container maxWidth="xl">
 				<Toolbar disableGutters>
-					<CalendarMonth
-						sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+					<img
+						style={{
+							width: "30px",
+							marginRight: "15px"
+						}}
+						alt="Game calendar icon"
+						src="/gamecal_logo.png"
 					/>
 					<Typography
 						variant="h6"
@@ -107,9 +114,6 @@ function ResponsiveAppBar() {
 							))}
 						</Menu> */}
 					</Box>
-					<CalendarMonth
-						sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
-					/>
 					<Typography
 						variant="h5"
 						noWrap
