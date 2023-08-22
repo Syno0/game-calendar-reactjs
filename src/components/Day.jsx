@@ -44,7 +44,7 @@ function Day({ day, handleOpen, setModalGame, isToday, games }) {
 								backgroundColor: '#FFF',
 							}}
 							alt={game.platform.slug}
-							src={"http:" + game.platform.logo}
+							src={game.platform.logo ? "https:" + game.platform.logo : ""}
 						/>
 					</Tooltip>
 				</span>
@@ -52,7 +52,7 @@ function Day({ day, handleOpen, setModalGame, isToday, games }) {
 					style={imgStyle}
 					alt={game.name}
 					src={
-						game.cover ? "http:" + game.cover.url : "/no-cover.png"
+						game.cover ? "https:" + game.cover.url : "/no-cover.png"
 					}
 					role="presentation"
 					onClick={() => {
