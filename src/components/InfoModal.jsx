@@ -82,8 +82,8 @@ function InfoModal({open, handleClose, game}) {
 		img.push(
 			<img
 				style={imgStyle}
-				alt={game.cover ? "http:" + game.cover.url : "/no-cover.png"}
-				src={game.cover ? "http:" + game.cover.url : "/no-cover.png"}
+				alt={game.cover ? "https:" + game.cover.url : "/no-cover.png"}
+				src={game.cover ? "https:" + game.cover.url : "/no-cover.png"}
 				role="presentation"
 			/>
 		);
@@ -94,7 +94,7 @@ function InfoModal({open, handleClose, game}) {
 						key={artwork.id}
 						style={imgStyle}
 						alt={artwork.id}
-						src={"http:" + artwork.url}
+						src={"https:" + artwork.url}
 						role="presentation"
 					/>);
 			});
@@ -166,7 +166,7 @@ function InfoModal({open, handleClose, game}) {
 														<img
 															style={{maxWidth: '50px', maxHeight: '30px', position:'absolute', marginLeft: '10px', marginTop: '-5px'}}
 															alt={game.platform.slug}
-															src={"http:" + game.platform.logo}
+															src={game.platform.logo ? "https:" + game.platform.logo : ""}
 														/>
 													</Tooltip>
 												</>
