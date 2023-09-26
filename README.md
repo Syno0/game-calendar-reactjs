@@ -1,4 +1,10 @@
-# Getting Started with Create React App
+# Game Calendar
+
+This project is a training project to learn React and Nest.js, it is a gaming calendar with filters and informations about games.
+
+It is base on IGDB API: https://api-docs.igdb.com/#getting-started
+
+You can try it here: https://gamecal.sb-pro.fr
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
